@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ProgressListControl.xaml.cs">
       <DependentUpon>ProgressListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)TileManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)ColorPicker.xaml">

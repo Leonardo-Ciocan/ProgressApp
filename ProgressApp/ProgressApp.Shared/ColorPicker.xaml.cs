@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -19,8 +21,32 @@ using Windows.UI.Xaml.Navigation;
 
 namespace ProgressApp
 {
-    public sealed partial class ColorPicker : UserControl
+    public sealed partial class ColorPicker : UserControl, INotifyPropertyChanged
     {
+        private Color _color;
+        public Color PickedColor
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+                RaisePropertyChanged();
+            }
+
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void RaisePropertyChanged([CallerMemberName] string caller = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(caller));
+            }
+        }
+
         public ColorPicker()
         {
             this.InitializeComponent();
@@ -39,7 +65,15 @@ namespace ProgressApp
                     (byte)random.Next(255)));
             }
 
+
+
             root.ItemsSource = colors;
+
+            root.SelectionChanged += (a, b) =>
+            {
+                (DataContext as ProgressItem).Color = (Color) root.SelectedValue;
+            };
+
         }
     }
 }

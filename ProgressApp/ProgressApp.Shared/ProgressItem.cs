@@ -45,8 +45,27 @@ namespace ProgressApp
 
         public List<string> Tags { get; set; }
 
-        public Color Color { get; set; }
+        private Color _color;
+        public Color Color
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+                RaisePropertyChanged();
+            }
 
+        }
+
+        public string ID;
+
+        public ProgressItem()
+        {
+            if (ID == null) ID = Guid.NewGuid().ToString();
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
