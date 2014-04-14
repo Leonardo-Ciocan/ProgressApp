@@ -78,7 +78,8 @@ namespace ProgressApp
                 Value = 35,
                 Color = Color.FromArgb(255, (byte)random.Next(255),
                     (byte)random.Next(255),
-                    (byte)random.Next(255))
+                    (byte)random.Next(255)),
+                ID = Guid.NewGuid().ToString()
             };
             items.Add(item);
             Frame.Navigate(typeof(DetailsPage), item);

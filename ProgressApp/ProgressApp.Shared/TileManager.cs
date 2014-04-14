@@ -25,36 +25,73 @@ namespace ProgressApp
     public class TileManager
     {
 
-        public async void SaveAndPin(UIElement tile, String ID , TileSize tileSize)
+        public async static void SaveAndPin(UIElement tile , UIElement smallTile, String ID)
         {
-            RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
-            await renderTargetBitmap.RenderAsync(tile);
-            var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
+            SecondaryTile pinTile = null;
 
-            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            var tileFile = await storageFolder.CreateFileAsync(ID + ".png", CreationCollisionOption.ReplaceExisting);
-
-            // Encode the image to the selected file on disk
-            using (var fileStream = await tileFile.OpenAsync(FileAccessMode.ReadWrite))
+            if (smallTile != null)
             {
-                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
+                RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
+                await renderTargetBitmap.RenderAsync(smallTile);
+                var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
 
-                encoder.SetPixelData(
-                    BitmapPixelFormat.Bgra8,
-                    BitmapAlphaMode.Straight,
-                    (uint)renderTargetBitmap.PixelWidth,
-                    (uint)renderTargetBitmap.PixelHeight,
-                    DisplayInformation.GetForCurrentView().LogicalDpi,
-                    DisplayInformation.GetForCurrentView().LogicalDpi,
-                    pixelBuffer.ToArray());
+                StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+                var tileFile = await storageFolder.CreateFileAsync(ID + "_medium.png", CreationCollisionOption.ReplaceExisting);
 
-                await encoder.FlushAsync();
+                // Encode the image to the selected file on disk
+                using (var fileStream = await tileFile.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
+
+                    encoder.SetPixelData(
+                        BitmapPixelFormat.Bgra8,
+                        BitmapAlphaMode.Straight,
+                        (uint)renderTargetBitmap.PixelWidth,
+                        (uint)renderTargetBitmap.PixelHeight,
+                        DisplayInformation.GetForCurrentView().LogicalDpi,
+                        DisplayInformation.GetForCurrentView().LogicalDpi,
+                        pixelBuffer.ToArray());
+
+                    await encoder.FlushAsync();
+                }
+                var tile2 = new SecondaryTile(ID, "a", "b", new Uri("ms-appdata:///local/" + ID + "_medium.png"), TileSize.Default);
+                tile2.VisualElements.Square150x150Logo = new Uri("ms-appdata:///local/" + ID + "_medium.png");
+                pinTile = tile2;
             }
-            var tile2 = new SecondaryTile(ID, "a", "b", new Uri("ms-appdata:///local/" + ID + ".png"), tileSize);
-            if(tileSize  == TileSize.Wide310x150) tile2.VisualElements.Wide310x150Logo = new Uri("ms-appdata:///local/" + ID + ".png");
 
 
-            await tile2.RequestCreateAsync();
+            if (tile != null)
+            {
+                RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
+                await renderTargetBitmap.RenderAsync(tile);
+                var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
+
+                StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+                var tileFile = await storageFolder.CreateFileAsync(ID + "_wide.png", CreationCollisionOption.ReplaceExisting);
+
+                // Encode the image to the selected file on disk
+                using (var fileStream = await tileFile.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
+
+                    encoder.SetPixelData(
+                        BitmapPixelFormat.Bgra8,
+                        BitmapAlphaMode.Straight,
+                        (uint)renderTargetBitmap.PixelWidth,
+                        (uint)renderTargetBitmap.PixelHeight,
+                        DisplayInformation.GetForCurrentView().LogicalDpi,
+                        DisplayInformation.GetForCurrentView().LogicalDpi,
+                        pixelBuffer.ToArray());
+
+                    await encoder.FlushAsync();
+                }
+                //var tile2 = new SecondaryTile(ID, "a", "b", new Uri("ms-appdata:///local/" + ID + "_wide.png"), TileSize.Wide310x150);
+                pinTile.VisualElements.Wide310x150Logo = new Uri("ms-appdata:///local/" + ID + "_wide.png");
+            }
+
+            await pinTile.RequestCreateAsync();
+
+            
         }
     }
 }

@@ -1,9 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Graphics.Display;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
 using Windows.UI;
+using Windows.UI.StartScreen;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 
 namespace ProgressApp
 {
@@ -62,10 +81,6 @@ namespace ProgressApp
 
         public string ID;
 
-        public ProgressItem()
-        {
-            if (ID == null) ID = Guid.NewGuid().ToString();
-        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -75,6 +90,28 @@ namespace ProgressApp
             {
                 PropertyChanged( this, new PropertyChangedEventArgs( caller ) );
             }
+        }
+
+
+        static XmlSerializer serializer = new XmlSerializer(typeof(ProgressItem));
+        StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+        public async void Save()
+        {
+            var itemFile = await  storageFolder.CreateFileAsync(ID + ".item", CreationCollisionOption.OpenIfExists);
+            using (var str = await itemFile.OpenStreamForWriteAsync())
+            {
+                serializer.Serialize(str, this);
+            }
+        }
+
+        public async Task<ProgressItem> Load(StorageFile file)
+        {
+            ProgressItem item;
+            using (var str = await file.OpenStreamForReadAsync())
+            {
+                item = serializer.Deserialize(str) as ProgressItem;
+            }
+            return item;
         }
     }
 }

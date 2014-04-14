@@ -67,34 +67,7 @@ namespace ProgressApp
 
         async void PinTile()
         {
-            RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
-            await renderTargetBitmap.RenderAsync(tile);
-            var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
-
-                StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-                var tileFile = await storageFolder.CreateFileAsync(self.ID + ".png", CreationCollisionOption.ReplaceExisting);
-
-                // Encode the image to the selected file on disk
-                using (var fileStream = await tileFile.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
-
-                    encoder.SetPixelData(
-                        BitmapPixelFormat.Bgra8,
-                        BitmapAlphaMode.Straight,
-                        (uint)renderTargetBitmap.PixelWidth,
-                        (uint)renderTargetBitmap.PixelHeight,
-                        DisplayInformation.GetForCurrentView().LogicalDpi,
-                        DisplayInformation.GetForCurrentView().LogicalDpi,
-                        pixelBuffer.ToArray());
-
-                    await encoder.FlushAsync();
-                }
-                var tile2 = new SecondaryTile(self.ID, "a", "b", new Uri("ms-appdata:///local/"+self.ID+".png"), TileSize.Wide310x150);
-                tile2.VisualElements.Wide310x150Logo = new Uri("ms-appdata:///local/" + self.ID + ".png");
-                
-            
-             await tile2.RequestCreateAsync();
+            TileManager.SaveAndPin(tile,tileSmall, self.ID);
         }
 
         private void PinClicked(object sender, RoutedEventArgs e)

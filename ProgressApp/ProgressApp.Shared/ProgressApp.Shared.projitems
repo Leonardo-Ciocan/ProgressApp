@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Core.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgressItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgressItemControl.xaml.cs">
       <DependentUpon>ProgressItemControl.xaml</DependentUpon>
