@@ -26,11 +26,16 @@ namespace ProgressApp
 {
     class Core
     {
-        StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+       /* StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
 
         public async Task<ObservableCollection<ProgressItem>> GetAllItems(){
             ObservableCollection<ProgressItem> items = new ObservableCollection<ProgressItem>();
             var results = await storageFolder.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.);
         }
+
+        public async void SaveAllItems()
+        {
+
+        }*/
     }
 }
