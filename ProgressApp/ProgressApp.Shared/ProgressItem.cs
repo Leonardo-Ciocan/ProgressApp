@@ -93,7 +93,7 @@ namespace ProgressApp
         }
 
 
-        static XmlSerializer serializer = new XmlSerializer(typeof(ProgressItem));
+        /*
         StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
         public async void Save()
         {
@@ -112,6 +112,6 @@ namespace ProgressApp
                 item = serializer.Deserialize(str) as ProgressItem;
             }
             return item;
-        }
+        }*/
     }
 }

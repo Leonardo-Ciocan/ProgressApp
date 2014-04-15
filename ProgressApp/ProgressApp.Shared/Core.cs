@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
@@ -24,18 +27,28 @@ using Windows.UI.Xaml.Navigation;
 
 namespace ProgressApp
 {
-    class Core
+    public class Core
     {
-       /* StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+        public static ObservableCollection<ProgressItem> items;
+        public static XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<ProgressItem>));
+        public static StorageFolder storageFolder = ApplicationData.Current.RoamingFolder;
 
-        public async Task<ObservableCollection<ProgressItem>> GetAllItems(){
-            ObservableCollection<ProgressItem> items = new ObservableCollection<ProgressItem>();
-            var results = await storageFolder.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.);
+        public static async void LoadAllItems(){
+            var file = await storageFolder.CreateFileAsync("data.items", CreationCollisionOption.OpenIfExists);
+            using (Stream str = await file.OpenStreamForReadAsync())
+            {
+                items = serializer.Deserialize(str) as ObservableCollection<ProgressItem>;
+            }
+            if (items == null) items = new ObservableCollection<ProgressItem>();
         }
 
-        public async void SaveAllItems()
+        public static async void SaveAllItems()
         {
-
-        }*/
+            var file = await storageFolder.CreateFileAsync("data.items" , CreationCollisionOption.OpenIfExists);
+            using (Stream str = await file.OpenStreamForWriteAsync())
+            {
+                serializer.Serialize(str, items);
+            }
+        }
     }
 }

@@ -57,12 +57,13 @@ namespace ProgressApp
             var uriLogo = new Uri("ms-appx:///Assets/Logo.scale-240.png");
             //var uriSmallLogo = new Uri("ms-appx:///images/smallLogoSecondaryTile-sdk.png");
 
+            Core.SaveAllItems();
+        }
 
-
-           
-
-
-
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            Core.SaveAllItems();
+            base.OnNavigatingFrom(e);
         }
 
         async void PinTile()

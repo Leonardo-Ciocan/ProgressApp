@@ -32,11 +32,14 @@ namespace ProgressApp
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
             StatusBar.GetForCurrentView().ForegroundColor = Colors.Gray;
-
+            if (Core.items == null)
+            {
+                Core.LoadAllItems();
+            }
             
         }
 
-        ObservableCollection<ProgressItem> items = new ObservableCollection<ProgressItem>();
+        //ObservableCollection<ProgressItem> items = new ObservableCollection<ProgressItem>();
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             StatusBar.GetForCurrentView().BackgroundColor = Colors.White;
@@ -46,11 +49,11 @@ namespace ProgressApp
             if (!loaded)
             {
                 
-                items.Add(new ProgressItem { Name = "Budget", Minimum = 0, Maximum = 1800, Value = 350, Color = Colors.Green });
-                items.Add(new ProgressItem { Name = "Pushups", Minimum = 0, Maximum = 20, Value = 16, Color = Colors.Red });
-                items.Add(new ProgressItem { Name = "Free bus days", Minimum = 0, Maximum = 12, Value = 6, Color = Colors.Orange });
-                items.Add(new ProgressItem { Name = "Protein", Minimum = 0, Maximum = 24, Value = 2, Color = Colors.Violet });
-                list.DataContext = items;
+                //Core.items.Add(new ProgressItem { Name = "Budget", Minimum = 0, Maximum = 1800, Value = 350, Color = Colors.Green });
+                //Core.items.Add(new ProgressItem { Name = "Pushups", Minimum = 0, Maximum = 20, Value = 16, Color = Colors.Red });
+                //Core.items.Add(new ProgressItem { Name = "Free bus days", Minimum = 0, Maximum = 12, Value = 6, Color = Colors.Orange });
+                //Core.items.Add(new ProgressItem { Name = "Protein", Minimum = 0, Maximum = 24, Value = 2, Color = Colors.Violet });
+                list.DataContext = Core.items;
 
                 list.OnSelected += (item) =>
                 {
@@ -81,7 +84,7 @@ namespace ProgressApp
                     (byte)random.Next(255)),
                 ID = Guid.NewGuid().ToString()
             };
-            items.Add(item);
+            Core.items.Add(item);
             Frame.Navigate(typeof(DetailsPage), item);
         }
     }
