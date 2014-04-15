@@ -11,6 +11,7 @@
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Icon="Pin" Label="Pin" Click="PinClicked"></AppBarButton>
+            <AppBarButton Icon="Delete" Label="Delete" Click="DeleteClicked"></AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
     <Grid>
@@ -18,7 +19,7 @@
 
         <local:ProgressItemControl x:Name="itemControl" VerticalAlignment="Top"></local:ProgressItemControl>
         <Grid x:Name="tile" Width="310" Height="150" Margin="45,-200,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="15*"/>
@@ -27,7 +28,7 @@
             <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="50" Margin="0,0,0,80" Foreground="White" FontFamily="Segoe WP SemiLight"></TextBlock>
             <Border Grid.Column="1"  Height="50" VerticalAlignment="Bottom" Margin="0,0,0,15" BorderBrush="White" BorderThickness="2" >
                 <ProgressBar Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}" BorderBrush="White"  Height="50" Margin="0">
-                    
+
                     <ProgressBar.Foreground>
                         <SolidColorBrush Color="{Binding Color}" Opacity="0.8">
 
@@ -36,23 +37,26 @@
                 </ProgressBar>
             </Border>
             <Grid Grid.Column="0" Background="red" Opacity="0">
-                
+
             </Grid>
             <Grid Grid.Column="2" Background="red" Opacity="0">
 
+            </Grid>
         </Grid>
-    </Grid>
 
-        <Hub Margin="0,125,0,0">
+        
+        <Hub Margin="0,151,0,0" Header="">
 
-            <HubSection Header="General" Height="537">
+            <HubSection Header="General">
                 <DataTemplate>
                     <Grid>
 
-                        <TextBox Text="{Binding Minimum , Mode=TwoWay}" Header="From" Margin="0,80,242,0"></TextBox>
+                        <TextBox Text="{Binding Minimum , Mode=TwoWay}" Header="From" Margin="0,80,0,0" HorizontalAlignment="Left" Width="99"></TextBox>
                         <TextBox Text="{Binding Name , Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Header="Name" Margin="0,10,0,0"></TextBox>
-                        <TextBox Text="{Binding Maximum , Mode=TwoWay}" Header="To" Margin="135,80,107,0" HorizontalAlignment="Center" Width="99"/>
-                        <TextBox Text="{Binding Value , Mode=TwoWay}" Header="Value" Margin="0,150,242,0" HorizontalAlignment="Right" Width="99"/>
+                        <TextBox Text="{Binding Maximum , Mode=TwoWay}" Header="To" Margin="135,80,0,0" HorizontalAlignment="Left" Width="99"/>
+                        <TextBox Text="{Binding Value , Mode=TwoWay}" Header="Value" Margin="0,150,0,0" HorizontalAlignment="Left" Width="99"/>
+                        <TextBox Text="{Binding Units , Mode=TwoWay}" Header="Units" Margin="0,220,0,0" HorizontalAlignment="Left" Width="234"/>
+
                     </Grid>
                 </DataTemplate>
             </HubSection>
@@ -66,7 +70,7 @@
             </HubSection>
         </Hub>
         <Grid x:Name="tileSmall" Width="150" Height="150" Margin="45,-380,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="20*"/>

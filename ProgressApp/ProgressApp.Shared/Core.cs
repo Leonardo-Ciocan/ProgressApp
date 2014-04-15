@@ -24,31 +24,42 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-
+using Newtonsoft.Json;
 namespace ProgressApp
 {
     public class Core
     {
-        public static ObservableCollection<ProgressItem> items;
-        public static XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<ProgressItem>));
+        //public static bool loaded = false;
+        public static ObservableCollection<ProgressItem> items = new ObservableCollection<ProgressItem>();
+
         public static StorageFolder storageFolder = ApplicationData.Current.RoamingFolder;
 
+        public static void Initialize()
+        {
+            storageFolder = ApplicationData.Current.RoamingFolder;
+        }
+
         public static async void LoadAllItems(){
-            var file = await storageFolder.CreateFileAsync("data.items", CreationCollisionOption.OpenIfExists);
-            using (Stream str = await file.OpenStreamForReadAsync())
+            if (storageFolder != null)
             {
-                items = serializer.Deserialize(str) as ObservableCollection<ProgressItem>;
+                var file = await storageFolder.CreateFileAsync("data.items", CreationCollisionOption.OpenIfExists);
+                string data = await FileIO.ReadTextAsync(file);
+                var result = JsonConvert.DeserializeObject<ObservableCollection<ProgressItem>>(data);
+                if (result != null)
+                {
+                    foreach (ProgressItem item in result)
+                    {
+                        items.Add(item);
+                    }
+                }
             }
-            if (items == null) items = new ObservableCollection<ProgressItem>();
         }
 
         public static async void SaveAllItems()
         {
             var file = await storageFolder.CreateFileAsync("data.items" , CreationCollisionOption.OpenIfExists);
-            using (Stream str = await file.OpenStreamForWriteAsync())
-            {
-                serializer.Serialize(str, items);
-            }
+            string json = JsonConvert.SerializeObject(items);
+            await FileIO.WriteTextAsync(file, json);
         }
     }
 }

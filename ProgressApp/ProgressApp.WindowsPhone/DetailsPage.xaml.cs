@@ -9,6 +9,7 @@ using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -74,6 +75,17 @@ namespace ProgressApp
         private void PinClicked(object sender, RoutedEventArgs e)
         {
             PinTile();
+        }
+
+        private async  void DeleteClicked(object sender, RoutedEventArgs e)
+        {
+            var dialog = new MessageDialog("Are you sure?" , "Deleting " + self.Name);
+            dialog.Commands.Add(new UICommand("Yes", (a) => {
+                Core.items.Remove(self);
+                Frame.Navigate(typeof(MainPage));
+            }));
+            dialog.Commands.Add(new UICommand("Cancel"));
+            await dialog.ShowAsync();
         }
     }
 }

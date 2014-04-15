@@ -42,8 +42,32 @@ namespace ProgressApp
             }
         }
 
-        public double Minimum { get; set; }
-        public double Maximum { get; set; }
+        private double _min;
+        public double Minimum
+        {
+            get
+            {
+                return _min;
+            }
+            set
+            {
+                _min = value;
+                RaisePropertyChanged();
+            }
+        }
+        private double _max;
+        public double Maximum
+        {
+            get
+            {
+                return _max;
+            }
+            set
+            {
+                _max = value;
+                RaisePropertyChanged();
+            }
+        }
 
         private double _value;
         public double Value
@@ -60,7 +84,19 @@ namespace ProgressApp
         }
 
 
-        public string Unit { get; set; }
+        private string _units;
+        public string Units
+        {
+            get
+            {
+                return _units;
+            }
+            set
+            {
+                _units = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public List<string> Tags { get; set; }
 

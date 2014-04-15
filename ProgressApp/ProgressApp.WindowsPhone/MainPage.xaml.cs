@@ -32,10 +32,9 @@ namespace ProgressApp
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
             StatusBar.GetForCurrentView().ForegroundColor = Colors.Gray;
-            if (Core.items == null)
-            {
-                Core.LoadAllItems();
-            }
+
+            Core.Initialize();
+            Core.LoadAllItems();
             
         }
 
@@ -45,7 +44,7 @@ namespace ProgressApp
             StatusBar.GetForCurrentView().BackgroundColor = Colors.White;
             StatusBar.GetForCurrentView().BackgroundOpacity = 0;
             StatusBar.GetForCurrentView().ForegroundColor = Colors.Gray;
-            
+            list.DataContext = Core.items;
             if (!loaded)
             {
                 
@@ -53,7 +52,7 @@ namespace ProgressApp
                 //Core.items.Add(new ProgressItem { Name = "Pushups", Minimum = 0, Maximum = 20, Value = 16, Color = Colors.Red });
                 //Core.items.Add(new ProgressItem { Name = "Free bus days", Minimum = 0, Maximum = 12, Value = 6, Color = Colors.Orange });
                 //Core.items.Add(new ProgressItem { Name = "Protein", Minimum = 0, Maximum = 24, Value = 2, Color = Colors.Violet });
-                list.DataContext = Core.items;
+                
 
                 list.OnSelected += (item) =>
                 {

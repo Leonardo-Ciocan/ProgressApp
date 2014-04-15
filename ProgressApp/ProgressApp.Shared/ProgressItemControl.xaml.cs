@@ -45,6 +45,7 @@ namespace ProgressApp
             try
             {
                 progress.Width = (item.Value - item.Minimum) / (item.Maximum - item.Minimum) * ActualWidth;
+                left.Text = (item.Maximum - item.Value).ToString();
             }
             catch { }
         }
