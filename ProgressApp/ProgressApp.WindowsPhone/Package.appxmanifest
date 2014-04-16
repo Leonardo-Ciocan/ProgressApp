@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="27721LeonardoCiocan.MyProgress8.1" Publisher="CN=1872DA25-5610-449D-B7F2-33C7013DDFDC" Version="1.1.0.3" />
+  <Identity Name="27721LeonardoCiocan.MyProgress8.1" Publisher="CN=1872DA25-5610-449D-B7F2-33C7013DDFDC" Version="1.1.0.4" />
   <mp:PhoneIdentity PhoneProductId="64a94b53-f3b4-452e-be27-7ca0d5e2dad2" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>My Progress 8.1</DisplayName>

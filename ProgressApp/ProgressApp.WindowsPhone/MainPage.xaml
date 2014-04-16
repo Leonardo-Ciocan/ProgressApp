@@ -11,14 +11,31 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Find" Label="Search"></AppBarButton>
+            <AppBarToggleButton Icon="Find" Label="Search" Click="Search"></AppBarToggleButton>
             <AppBarButton Icon="Add" Label="Add" Click="AppBarButton_Click"></AppBarButton>
             <AppBarToggleButton Icon="OpenWith" Label="Reorder" Click="AppBarToggleButton_Click"/>
+            <AppBarButton Icon="Filter" Label="Filter tag" >
+                <AppBarButton.Flyout>
+                    <ListPickerFlyout x:Name="tagChooser">
+                        <ListPickerFlyout.ItemTemplate>
+                            <DataTemplate>
+                                <ListViewItem Content="{Binding}" FontSize="25">
+
+                                </ListViewItem>
+                            </DataTemplate>
+                        </ListPickerFlyout.ItemTemplate>
+                    </ListPickerFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
     <Grid>
-        <local:ProgressListControl x:Name="list">
+        <TextBox Visibility="Collapsed" x:Name="search" PlaceholderText="Search by name , unit or tag" Margin="5,5,5,0"></TextBox>
+        <local:ProgressListControl x:Name="list" Margin="0,0,0,0">
             
         </local:ProgressListControl>
+       
     </Grid>
+    
+    
 </Page>

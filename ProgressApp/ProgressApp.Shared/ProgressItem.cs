@@ -98,7 +98,7 @@ namespace ProgressApp
             }
         }
 
-        public List<string> Tags { get; set; }
+        public string Tags { get; set; }
 
         private Color _color;
         public Color Color

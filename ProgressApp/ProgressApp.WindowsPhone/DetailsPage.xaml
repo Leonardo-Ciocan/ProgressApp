@@ -7,6 +7,67 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Thickness x:Key="PivotPortraitThemePadding">19,38,0,0</Thickness>
+        <Thickness x:Key="PivotLandscapeThemePadding">19,25,0,0</Thickness>
+        <Style x:Key="CompactPivot" TargetType="Pivot">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Foreground" Value="{ThemeResource PhoneForegroundBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Pivot">
+                        <Grid x:Name="RootElement" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="454.999988555908"/>
+                            </Grid.RowDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="Orientation">
+                                    <VisualState x:Name="Portrait">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="TitleContentControl">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPortraitThemePadding}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Landscape">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="TitleContentControl">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotLandscapeThemePadding}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentControl x:Name="TitleContentControl" ContentTemplate="{TemplateBinding TitleTemplate}" Content="{TemplateBinding Title}" Style="{StaticResource PivotTitleContentControlStyle}" Margin="19,38,0,417"/>
+                            <ScrollViewer x:Name="ScrollViewer" HorizontalSnapPointsAlignment="Center" HorizontalSnapPointsType="MandatorySingle" HorizontalScrollBarVisibility="Hidden" Template="{StaticResource ScrollViewerScrollBarlessTemplate}" VerticalSnapPointsType="None" VerticalScrollBarVisibility="Disabled" VerticalScrollMode="Disabled" VerticalContentAlignment="Stretch" ZoomMode="Disabled">
+                                <PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
+                                    <PivotHeaderPanel x:Name="Header">
+                                        <PivotHeaderPanel.RenderTransform>
+                                            <CompositeTransform x:Name="HeaderTranslateTransform" TranslateX="0"/>
+                                        </PivotHeaderPanel.RenderTransform>
+                                    </PivotHeaderPanel>
+                                    <ItemsPresenter x:Name="PivotItemPresenter">
+                                        <ItemsPresenter.RenderTransform>
+                                            <TranslateTransform x:Name="ItemsPresenterTranslateTransform" X="0"/>
+                                        </ItemsPresenter.RenderTransform>
+                                    </ItemsPresenter>
+                                </PivotPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
     <Page.BottomAppBar>
         <CommandBar>
@@ -44,31 +105,32 @@
             </Grid>
         </Grid>
 
-        
-        <Hub Margin="0,151,0,0" Header="">
+        <Pivot Margin="0,152,0,0" Style="{StaticResource CompactPivot}">
+            <PivotItem Margin="19,0,19,-0.667">
+                <Grid>
 
-            <HubSection Header="General">
-                <DataTemplate>
-                    <Grid>
+                    <TextBox Text="{Binding Minimum , Mode=TwoWay}" Header="From" Margin="0,80,0,0" HorizontalAlignment="Left" Width="99"></TextBox>
+                    <TextBox Text="{Binding Name , Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Header="Name" Margin="0,10,0,0"></TextBox>
+                    <TextBox Text="{Binding Maximum , Mode=TwoWay}" Header="To" Margin="135,80,0,0" HorizontalAlignment="Left" Width="99"/>
+                    <TextBox Text="{Binding Value , Mode=TwoWay}" Header="Value" Margin="0,150,0,0" HorizontalAlignment="Left" Width="99"/>
+                    <TextBox Text="{Binding Units , Mode=TwoWay}" Header="Units" Margin="0,220,0,0" HorizontalAlignment="Left" Width="234"/>
+                    <TextBox Text="{Binding Tags , Mode=TwoWay}" Header="Tags (separated by commas)" Margin="0,290,0,0" HorizontalAlignment="Left" Width="234" VerticalAlignment="Top" Height="65"/>
 
-                        <TextBox Text="{Binding Minimum , Mode=TwoWay}" Header="From" Margin="0,80,0,0" HorizontalAlignment="Left" Width="99"></TextBox>
-                        <TextBox Text="{Binding Name , Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Header="Name" Margin="0,10,0,0"></TextBox>
-                        <TextBox Text="{Binding Maximum , Mode=TwoWay}" Header="To" Margin="135,80,0,0" HorizontalAlignment="Left" Width="99"/>
-                        <TextBox Text="{Binding Value , Mode=TwoWay}" Header="Value" Margin="0,150,0,0" HorizontalAlignment="Left" Width="99"/>
-                        <TextBox Text="{Binding Units , Mode=TwoWay}" Header="Units" Margin="0,220,0,0" HorizontalAlignment="Left" Width="234"/>
+                </Grid>
+                <PivotItem.Header>
+                    <TextBlock Text="General" Margin="5" FontSize="25"></TextBlock>
+                </PivotItem.Header>
+            </PivotItem>
+            <PivotItem Margin="19,0,19,-0.667">
+                <local:ColorPicker HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
 
-                    </Grid>
-                </DataTemplate>
-            </HubSection>
+                </local:ColorPicker>
+                <PivotItem.Header>
+                    <TextBlock Text="Color" Margin="5" FontSize="25"></TextBlock>
+                </PivotItem.Header>
+            </PivotItem>
+        </Pivot>
 
-            <HubSection Header="Color" Height="537" VerticalAlignment="Bottom">
-                <DataTemplate>
-                    <local:ColorPicker  >
-
-                    </local:ColorPicker>
-                </DataTemplate>
-            </HubSection>
-        </Hub>
         <Grid x:Name="tileSmall" Width="150" Height="150" Margin="45,-380,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
 
             <Grid.ColumnDefinitions>

@@ -26,6 +26,7 @@ namespace ProgressApp
     public sealed partial class MainPage : Page
     {
         bool loaded;
+        ObservableCollection<ProgressItem> resultItems = new ObservableCollection<ProgressItem>();
         public MainPage()
         {
             this.InitializeComponent();
@@ -35,16 +36,81 @@ namespace ProgressApp
 
             Core.Initialize();
             Core.LoadAllItems();
+
+            list.DataContext = Core.items;
+            
+            this.Loaded += MainPage_Loaded;
+        }
+
+        ObservableCollection<string> tags = new ObservableCollection<string>();
+        void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            search.KeyDown += (a, b) =>
+            {
+                resultItems.Clear();
+                foreach (ProgressItem item in Core.items)
+                {
+                    if (item.Name.Contains(search.Text) || item.Units.Contains(search.Text.ToLower()) || item.Tags.Contains(search.Text.ToLower()) || search.Text == "")
+                    {
+                        resultItems.Add(item);
+                    }
+                }
+            };
+
+            tagChooser.ItemsSource = tags;
+
+            tagChooser.ItemsPicked += (a, b) =>
+            {
+                if (tagChooser.SelectedValue.ToString() == "All")
+                {
+                    list.DataContext = Core.items;
+                    resultItems.Clear();
+                }
+                else
+                {
+                    resultItems.Clear();
+                    list.DataContext = resultItems;
+                    foreach (ProgressItem item in Core.items)
+                    {
+                        if (item.Tags.Replace(" ", "").ToLower().Contains(tagChooser.SelectedValue.ToString()))
+                        {
+                            resultItems.Add(item);
+                        }
+                    }
+                }
+            };
+
+            tags.Clear();
+            tags.Add("All");
+            foreach (ProgressItem item in Core.items)
+            {
+                if (item.Tags == null) break;
+                foreach (String tag in item.Tags.Split(','))
+                {
+                    if (!tags.Contains(tag.Replace(" ", "").ToLower())) tags.Add(tag.Replace(" ", "").ToLower());
+                }
+            }
             
         }
 
         //ObservableCollection<ProgressItem> items = new ObservableCollection<ProgressItem>();
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            tags.Clear();
+            tags.Add("All");
+            foreach (ProgressItem item in Core.items)
+            {
+                if (item.Tags == null) break;
+                foreach (String tag in item.Tags.Split(','))
+                {
+                    if(!tags.Contains(tag.Replace(" ","").ToLower()))tags.Add(tag.Replace(" ","").ToLower());
+                }
+            }
+
             StatusBar.GetForCurrentView().BackgroundColor = Colors.White;
             StatusBar.GetForCurrentView().BackgroundOpacity = 0;
             StatusBar.GetForCurrentView().ForegroundColor = Colors.Gray;
-            list.DataContext = Core.items;
+            //list.DataContext = Core.items;
             if (!loaded)
             {
                 
@@ -81,10 +147,27 @@ namespace ProgressApp
                 Color = Color.FromArgb(255, (byte)random.Next(255),
                     (byte)random.Next(255),
                     (byte)random.Next(255)),
-                ID = Guid.NewGuid().ToString()
+                ID = Guid.NewGuid().ToString(),
+                Units = "",
+                Tags = ""
             };
             Core.items.Add(item);
             Frame.Navigate(typeof(DetailsPage), item);
+        }
+
+        private void Search(object sender, RoutedEventArgs e)
+        {
+            AppBarToggleButton btn = (AppBarToggleButton)sender;
+            search.Visibility = (btn.IsChecked.Value) ? Visibility.Visible : Visibility.Collapsed;
+            list.Margin = new Thickness(0, (btn.IsChecked.Value) ? 55 : 0, 0, 0);
+            if (!btn.IsChecked.Value)
+            {
+                list.DataContext = Core.items;
+            }
+            else
+            {
+                list.DataContext = resultItems;
+            }
         }
     }
 }
