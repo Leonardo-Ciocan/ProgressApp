@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -25,14 +26,18 @@ namespace ProgressApp
     public class TileManager
     {
 
-        public async static void SaveAndPin(UIElement tile , UIElement smallTile, String ID)
+        public async static void SaveAndPin(FrameworkElement tile , UIElement smallTile, String ID)
         {
             SecondaryTile pinTile = null;
-
             if (smallTile != null)
             {
                 RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
                 await renderTargetBitmap.RenderAsync(smallTile);
+                //var xaml = await FileIO.ReadTextAsync(mediumTileFile);
+                //Border mediumTile = (Border)XamlReader.Load(xaml);
+                //mediumTile.DataContext = tile.DataContext;
+                //await renderTargetBitmap.RenderAsync(mediumTile);
+
                 var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
 
                 StorageFolder storageFolder = ApplicationData.Current.LocalFolder;

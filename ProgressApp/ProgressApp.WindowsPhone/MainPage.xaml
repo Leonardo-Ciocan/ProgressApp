@@ -27,6 +27,10 @@
                     </ListPickerFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Setting" Label="Settings" Click="AppBarButton_Click_1"></AppBarButton>
+            </CommandBar.SecondaryCommands>
+            
         </CommandBar>
     </Page.BottomAppBar>
     <Grid>

@@ -141,6 +141,7 @@ namespace ProgressApp
             //adding
             ProgressItem item = new ProgressItem()
             {
+                Name="",
                 Minimum = 0,
                 Maximum = 100,
                 Value = 35,
@@ -168,6 +169,11 @@ namespace ProgressApp
             {
                 list.DataContext = resultItems;
             }
+        }
+
+        private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage));
         }
     }
 }
