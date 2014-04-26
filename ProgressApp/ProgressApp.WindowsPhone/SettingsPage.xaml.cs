@@ -34,9 +34,9 @@ namespace ProgressApp
         /// This parameter is typically used to configure the page.</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            string s = await Windows.System.UserProfile.UserInformation.GetFirstNameAsync();
             
-            int x;
+            
+           
             preview.Width = Window.Current.Bounds.Width;
             preview.Height = Window.Current.Bounds.Height;
             for (int x = 0; x < 3; x++)

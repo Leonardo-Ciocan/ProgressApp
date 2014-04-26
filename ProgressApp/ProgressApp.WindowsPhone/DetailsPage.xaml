@@ -8,6 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
+
         <Thickness x:Key="PivotPortraitThemePadding">19,38,0,0</Thickness>
         <Thickness x:Key="PivotLandscapeThemePadding">19,25,0,0</Thickness>
         <Style x:Key="CompactPivot" TargetType="Pivot">
@@ -85,16 +86,21 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="15*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Name}" FontSize="50" Margin="18,0,0.667,0" Foreground="White" FontFamily="Segoe WP SemiLight" Grid.ColumnSpan="2" Height="70" VerticalAlignment="Top"/>
-            <Border  Height="50" VerticalAlignment="Bottom" Margin="18,0,0.667,15" BorderBrush="White" BorderThickness="2" Grid.ColumnSpan="2" >
-                <ProgressBar Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}" BorderBrush="White"  Height="50" Margin="0">
+            <TextBlock Text="{Binding Name}" FontSize="38" Margin="0,0,1,0" Foreground="White" FontFamily="Segoe WP SemiLight" Height="43" VerticalAlignment="Top" Grid.Column="1"/>
+            <Border  Height="35" VerticalAlignment="Bottom" Margin="0,0,0,43" BorderBrush="White" BorderThickness="1" Grid.Column="1" >
+                <ProgressBar x:Name="tileSlider" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}" BorderBrush="White"  Height="35" Margin="0" VerticalAlignment="Stretch">
 
+                    <ProgressBar.Background>
+                        <SolidColorBrush Color="{Binding Color}" Opacity="0.5">
+                            
+                        </SolidColorBrush>
+                    </ProgressBar.Background>
                     <ProgressBar.Foreground>
-                        <SolidColorBrush Color="{Binding Color}" Opacity="0.8">
+                        <SolidColorBrush Color="{Binding Color}" Opacity="1">
 
                         </SolidColorBrush>
                     </ProgressBar.Foreground>
@@ -102,16 +108,24 @@
             </Border>
             <Grid Grid.Column="0" Background="red" Opacity="0" Margin="0,0,0.333,0"/>
             <Grid Grid.Column="2" Background="red" Opacity="0" Margin="0.333,0,0,0"/>
+            <StackPanel Margin="0,0,10,37" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Height="35" VerticalAlignment="Bottom">
+                <TextBlock x:Name="left" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding LeftValue}" Foreground="White" FontSize="21.333" Margin="0,0,5,0"/>
+                <TextBlock x:Name="left_Copy" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding Units}" Foreground="White" FontSize="21.333" Margin="0,0,5,0"/>
+                <TextBlock x:Name="left_Copy1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="left" Foreground="White" FontSize="21.333" Margin="0"/>
+            </StackPanel>
+            <TextBlock FontSize="18" HorizontalAlignment="Left" Margin="0,0,0,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="White" Text="{Binding Minimum}" Grid.Column="1"/>
+            <TextBlock FontSize="18" HorizontalAlignment="Right" Margin="0,0,0,10" TextWrapping="Wrap" Text="{Binding Maximum}" VerticalAlignment="Bottom" Foreground="White" Grid.Column="1"/>
+            <Border BorderBrush="White" BorderThickness="1,0" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="290" Grid.Column="1" Margin="0,72,0,0"/>
         </Grid>
 
         <Pivot Margin="0,152,0,0" Style="{StaticResource CompactPivot}">
             <PivotItem Margin="19,0,19,-0.667">
                 <Grid>
 
-                    <TextBox Text="{Binding Minimum , Mode=TwoWay}" Header="From" Margin="0,80,0,0" HorizontalAlignment="Left" Width="99"></TextBox>
+                    <TextBox Text="{Binding Minimum , Mode=TwoWay}" Header="From" Margin="0,80,0,0" HorizontalAlignment="Left" Width="99" InputScope="Number"></TextBox>
                     <TextBox Text="{Binding Name , Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Header="Name" Margin="0,10,0,0"></TextBox>
-                    <TextBox Text="{Binding Maximum , Mode=TwoWay}" Header="To" Margin="135,80,0,0" HorizontalAlignment="Left" Width="99"/>
-                    <TextBox Text="{Binding Value , Mode=TwoWay}" Header="Value" Margin="0,150,0,0" HorizontalAlignment="Left" Width="99"/>
+                    <TextBox Text="{Binding Maximum , Mode=TwoWay}" Header="To" Margin="135,80,0,0" HorizontalAlignment="Left" Width="99" InputScope="Number"/>
+                    <TextBox Text="{Binding Value , Mode=TwoWay}" Header="Value" Margin="0,150,0,0" HorizontalAlignment="Left" Width="99" InputScope="Number"/>
                     <TextBox Text="{Binding Units , Mode=TwoWay}" Header="Units" Margin="0,220,0,0" HorizontalAlignment="Left" Width="234"/>
                     <TextBox Text="{Binding Tags , Mode=TwoWay}" Header="Tags (separated by commas)" Margin="0,290,0,0" HorizontalAlignment="Left" Width="234" VerticalAlignment="Top" Height="65"/>
 
@@ -133,23 +147,28 @@
         <Grid x:Name="tileSmall" Width="150" Height="150" Margin="45,-380,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="20*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="40" Margin="0,0,0,80" Foreground="White" FontFamily="Segoe WP SemiLight"/>
-            <Border Grid.Column="1"  Height="50" VerticalAlignment="Bottom" Margin="0,0,0,15" BorderBrush="White" BorderThickness="2" >
-                <ProgressBar Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}" BorderBrush="White"  Height="50" Margin="0">
+            <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="30" Margin="0,0,0,80" Foreground="White" FontFamily="Segoe WP SemiLight"/>
+            <Border Grid.Column="1"  Height="35" VerticalAlignment="Bottom" Margin="0,0,0,15" BorderBrush="White" BorderThickness="1" >
+                <ProgressBar Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}" BorderBrush="White"  Height="35" Margin="0">
 
                     <ProgressBar.Foreground>
-                        <SolidColorBrush Color="{Binding Color}" Opacity="0.8"/>
+                        <SolidColorBrush Color="{Binding Color}" Opacity="1"/>
                     </ProgressBar.Foreground>
                 </ProgressBar>
             </Border>
+            <StackPanel Margin="0,0,9.667,4" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Height="35" VerticalAlignment="Bottom">
+                <TextBlock  HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding LeftValue}" Foreground="White" FontSize="18" Margin="0,0,5,0"/>
+                <TextBlock  HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding Units}" Foreground="White" FontSize="18" Margin="0,0,5,0"/>
+                <TextBlock  HorizontalAlignment="Right" TextWrapping="Wrap" Text="left" Foreground="White" FontSize="18" Margin="0"/>
+            </StackPanel>
             <Grid Grid.Column="0" Background="red" Opacity="0"/>
             <Grid Grid.Column="2" Background="red" Opacity="0"/>
         </Grid>
-        
+
 
     </Grid>
 </Page>

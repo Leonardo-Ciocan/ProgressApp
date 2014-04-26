@@ -69,6 +69,7 @@ namespace ProgressApp
 
         async void PinTile()
         {
+            var item = tileSlider;
             TileManager.SaveAndPin(tile,tileSmall, self.ID);
         }
 
@@ -86,6 +87,7 @@ namespace ProgressApp
             }));
             dialog.Commands.Add(new UICommand("Cancel"));
             await dialog.ShowAsync();
+
         }
     }
 }

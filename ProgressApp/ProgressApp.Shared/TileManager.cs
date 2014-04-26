@@ -92,6 +92,7 @@ namespace ProgressApp
                 }
                 //var tile2 = new SecondaryTile(ID, "a", "b", new Uri("ms-appdata:///local/" + ID + "_wide.png"), TileSize.Wide310x150);
                 pinTile.VisualElements.Wide310x150Logo = new Uri("ms-appdata:///local/" + ID + "_wide.png");
+
             }
 
             await pinTile.RequestCreateAsync();

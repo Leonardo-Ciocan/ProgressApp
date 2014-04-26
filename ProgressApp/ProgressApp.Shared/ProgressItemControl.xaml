@@ -12,18 +12,31 @@
     
 		<Grid Margin="0,52,0,0">
 			<Grid.Background>
-				<SolidColorBrush Color="{Binding Color}"/>
+				<SolidColorBrush Color="{Binding Color}" Opacity="0"/>
 			</Grid.Background>
-			<Grid x:Name="progress" Background="#FF151515" Opacity="0.2" HorizontalAlignment="Left" />
+			<ProgressBar Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}" VerticalAlignment="Stretch">
+
+                    <ProgressBar.Background>
+                        <SolidColorBrush Color="{Binding Color}" Opacity="0.5">
+                            
+                        </SolidColorBrush>
+                    </ProgressBar.Background>
+                    <ProgressBar.Foreground>
+                        <SolidColorBrush Color="{Binding Color}" Opacity="1">
+
+                        </SolidColorBrush>
+                    </ProgressBar.Foreground>
+                </ProgressBar>
+			<Grid x:Name="progress" Background="#FF151515" Opacity="0.2" HorizontalAlignment="Left" Visibility="Collapsed" />
 			<Slider x:Name="progressBar" Height="38" VerticalAlignment="Bottom" Background="#00000000" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value, Mode=TwoWay}" Margin="0,0,0,-38" Visibility="Collapsed">
 				<Slider.Foreground>
 				<SolidColorBrush Color="{Binding Color}"/>
 			</Slider.Foreground>
 			</Slider>
 			<StackPanel Margin="0,17,5,4" Orientation="Horizontal" HorizontalAlignment="Right">
-				<TextBlock x:Name="left" HorizontalAlignment="Right" TextWrapping="Wrap" Text="15" VerticalAlignment="Bottom" Foreground="White" FontSize="16" Margin="0,0,5,0"/>
+				<TextBlock x:Name="left" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding LeftValue}" Foreground="White" FontSize="16" Margin="0,0,5,0"/>
 				<TextBlock x:Name="left_Copy" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding Units}" Foreground="White" FontSize="16" Margin="0,0,5,0"/>
-				<TextBlock x:Name="left_Copy1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="left" VerticalAlignment="Bottom" Foreground="White" FontSize="16" Margin="0"/>
+				<TextBlock x:Name="left_Copy1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="left" Foreground="White" FontSize="16" Margin="0"/>
 			</StackPanel>
 		</Grid>
 		<TextBlock Margin="5,7,0,0" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top"  FontSize="33.333" FontFamily="Segoe UI Light" HorizontalAlignment="Left" Width="380" FontWeight="ExtraLight">

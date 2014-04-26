@@ -6,15 +6,19 @@
     <DisplayName>My Progress 8.1</DisplayName>
     <PublisherDisplayName>Leonardo Ciocan</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
+    
   </Properties>
   <Prerequisites>
     <OSMinVersion>6.3.1</OSMinVersion>
     <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
+    
   </Prerequisites>
   <Resources>
     <Resource Language="x-generate" />
+    
   </Resources>
   <Applications>
+    
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ProgressApp.WindowsPhone.App">
       <m3:VisualElements DisplayName="My Progress 8.1" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="ProgressApp.WindowsPhone" ForegroundText="light" BackgroundColor="transparent">
         <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png">
@@ -22,13 +26,12 @@
         <m3:SplashScreen Image="Assets\SplashScreen.png" />
         <m3:ApplicationView MinWidth="width320" />
         <!--Used in XAML Designer. DO NOT REMOVE-->
+        
       </m3:VisualElements>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClientServer" />
+    
   </Capabilities>
-  <Extensions>
-    <Extension ExtensionName="LockScreen_Background" ConsumerID="{111DFF24-AA15-4A96-8006-2BFF8122084F}" TaskID="_default" />
-  </Extensions>
 </Package>

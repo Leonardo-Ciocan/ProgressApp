@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Newtonsoft.Json;
 
 namespace ProgressApp
 {
@@ -55,6 +56,7 @@ namespace ProgressApp
                 RaisePropertyChanged();
             }
         }
+
         private double _max;
         public double Maximum
         {
@@ -80,6 +82,16 @@ namespace ProgressApp
             {
                 _value = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged("LeftValue");
+            }
+        }
+
+        [JsonIgnore]
+        public double LeftValue
+        {
+            get
+            {
+                return Maximum - Value;
             }
         }
 
