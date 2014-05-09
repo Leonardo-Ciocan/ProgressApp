@@ -41,7 +41,7 @@ namespace ProgressApp
                 var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
 
                 StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-                var tileFile = await storageFolder.CreateFileAsync(ID + "_medium.png", CreationCollisionOption.ReplaceExisting);
+                var tileFile = await storageFolder.CreateFileAsync(ID + "_medium.png", CreationCollisionOption.OpenIfExists);
 
                 // Encode the image to the selected file on disk
                 using (var fileStream = await tileFile.OpenAsync(FileAccessMode.ReadWrite))

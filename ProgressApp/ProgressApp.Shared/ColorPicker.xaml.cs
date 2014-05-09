@@ -72,6 +72,22 @@ namespace ProgressApp
             root.SelectionChanged += (a, b) =>
             {
                 (DataContext as ProgressItem).Color = (Color) root.SelectedValue;
+                red.Value = ((Color)root.SelectedValue).R;
+                blue.Value = ((Color)root.SelectedValue).B;
+                green.Value = ((Color)root.SelectedValue).G;
+            };
+
+            blue.ValueChanged += (a, b) =>
+            {
+                (DataContext as ProgressItem).Color = Color.FromArgb(255, (byte)red.Value, (byte)green.Value, (byte)blue.Value);
+            };
+            green.ValueChanged += (a, b) =>
+            {
+                (DataContext as ProgressItem).Color = Color.FromArgb(255, (byte)red.Value, (byte)green.Value, (byte)blue.Value);
+            };
+            red.ValueChanged += (a, b) =>
+            {
+                (DataContext as ProgressItem).Color = Color.FromArgb(255, (byte)red.Value, (byte)green.Value, (byte)blue.Value);
             };
 
         }

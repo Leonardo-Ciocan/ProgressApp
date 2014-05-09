@@ -9,6 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     RequestedTheme="Light">
 
+    <Page.Resources>
+
+    </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarToggleButton Icon="Find" Label="Search" Click="Search"></AppBarToggleButton>
@@ -30,16 +33,141 @@
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Setting" Label="Settings" Click="AppBarButton_Click_1"></AppBarButton>
             </CommandBar.SecondaryCommands>
-            
+
         </CommandBar>
     </Page.BottomAppBar>
     <Grid>
-        <TextBox Visibility="Collapsed" x:Name="search" PlaceholderText="Search by name , unit or tag" Margin="5,5,5,0"></TextBox>
-        <local:ProgressListControl x:Name="list" Margin="0,0,0,0">
-            
-        </local:ProgressListControl>
-       
+        <Pivot>
+            <PivotItem Margin="19,0">
+                <PivotItem.Header
+            >List</PivotItem.Header>
+                <Grid>
+                    <TextBox Visibility="Collapsed" x:Name="search" PlaceholderText="Search by name , unit or tag" Margin="5,5,5,0"></TextBox>
+                    <local:ProgressListControl x:Name="list" Margin="0,0,0,0">
+
+                    </local:ProgressListControl>
+                </Grid>
+            </PivotItem>
+            <PivotItem Header="Group Tile">
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" Text="You can have two items on the same tile , select below." VerticalAlignment="Top" Width="362"/>
+                    <StackPanel Margin="0,77,0,0" Orientation="Vertical">
+                        <ComboBox x:Name="firstTileChoice" VerticalAlignment="Top" Margin="0,5,-0.333,0" Header="First item" MaxDropDownHeight="0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <local:ProgressItemControl RenderTransformOrigin="0.5,0.5">
+                                        <local:ProgressItemControl.RenderTransform>
+                                            <CompositeTransform ScaleX="0.75" TranslateX="0" TranslateY="0" ScaleY="0.75"/>
+                                        </local:ProgressItemControl.RenderTransform>
+                                    </local:ProgressItemControl>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox x:Name="secondTileChoice" VerticalAlignment="Top" Margin="0,5,-0.333,0" Header="Second Item" MaxDropDownHeight="0" VerticalContentAlignment="Top">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <local:ProgressItemControl RenderTransformOrigin="0.5,0.5">
+                                        <local:ProgressItemControl.RenderTransform>
+                                            <CompositeTransform ScaleX="0.75" TranslateX="0" TranslateY="0" ScaleY="0.75"/>
+                                        </local:ProgressItemControl.RenderTransform>
+                                    </local:ProgressItemControl>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <AppBarButton x:Name="pinGroupBtn" Icon="Pin" Label="Pin group tile" HorizontalAlignment="Center" Margin="0,5,0,0"></AppBarButton>
+                    </StackPanel>
+
+                </Grid>
+            </PivotItem>
+
+        </Pivot>
+        <Grid x:Name="tile" Width="310" Height="150" Margin="45,-200,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1">
+                <StackPanel x:Name="largeTileFirst">
+                    <TextBlock Text="{Binding Name}" FontSize="25" Margin="0,5,1,0" Foreground="White" FontFamily="Segoe WP SemiLight" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Border  Height="29" VerticalAlignment="Bottom" Margin="0" BorderBrush="White" BorderThickness="1" Grid.ColumnSpan="2" >
+                        <ProgressBar x:Name="tileSlider" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}" BorderBrush="White" VerticalAlignment="Stretch">
+
+                            <ProgressBar.Background>
+                                <SolidColorBrush Color="{Binding Color}" Opacity="0.6"/>
+                            </ProgressBar.Background>
+                            <ProgressBar.Foreground>
+                                <SolidColorBrush Color="{Binding Color}" Opacity="1"/>
+                            </ProgressBar.Foreground>
+                        </ProgressBar>
+                    </Border>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Top" x:Name="largeTileSecond">
+                    <TextBlock Text="{Binding Name}" FontSize="25" Margin="0,0,1,0" Foreground="White" FontFamily="Segoe WP SemiLight" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Border  Height="29" VerticalAlignment="Bottom" Margin="0" BorderBrush="White" BorderThickness="1" Grid.ColumnSpan="2" >
+                        <ProgressBar x:Name="tileSlider2" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}" BorderBrush="White"  VerticalAlignment="Stretch">
+
+                            <ProgressBar.Background>
+                                <SolidColorBrush Color="{Binding Color}" Opacity="0.6"/>
+                            </ProgressBar.Background>
+                            <ProgressBar.Foreground>
+                                <SolidColorBrush Color="{Binding Color}" Opacity="1"/>
+                            </ProgressBar.Foreground>
+                        </ProgressBar>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+            <Grid Grid.Column="0" Background="red" Opacity="0" Margin="0,0,0.333,0"/>
+            <Grid Grid.Column="2" Background="red" Opacity="0" Margin="0.333,0,0,0"/>
+
+        </Grid>
+        <Grid x:Name="tileSmall" Width="150" Height="150" Margin="45,-380,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1">
+                <StackPanel x:Name="smallTileFirst">
+                    <TextBlock Text="{Binding Name}" FontSize="20" Margin="0,10,1,0" Foreground="White" FontFamily="Segoe WP SemiLight" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Border  Height="29" VerticalAlignment="Bottom" Margin="0" BorderBrush="White" BorderThickness="1" Grid.ColumnSpan="2" >
+                        <ProgressBar Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}" BorderBrush="White" VerticalAlignment="Stretch">
+
+                            <ProgressBar.Background>
+                                <SolidColorBrush Color="{Binding Color}" Opacity="0.5"/>
+                            </ProgressBar.Background>
+                            <ProgressBar.Foreground>
+                                <SolidColorBrush Color="{Binding Color}" Opacity="1"/>
+                            </ProgressBar.Foreground>
+                        </ProgressBar>
+                    </Border>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Top" x:Name="smallTileSecond">
+                    <TextBlock Text="{Binding Name}" FontSize="20" Margin="0,10,1,0" Foreground="White" FontFamily="Segoe WP SemiLight" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Border  Height="29" VerticalAlignment="Bottom" Margin="0" BorderBrush="White" BorderThickness="1" Grid.ColumnSpan="2" >
+                        <ProgressBar x:Name="smallSlider2" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Value}" BorderBrush="White" VerticalAlignment="Stretch">
+
+                            <ProgressBar.Background>
+                                <SolidColorBrush Color="{Binding Color}" Opacity="0.5"/>
+                            </ProgressBar.Background>
+                            <ProgressBar.Foreground>
+                                <SolidColorBrush Color="{Binding Color}" Opacity="1"/>
+                            </ProgressBar.Foreground>
+                        </ProgressBar>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+            <Grid Grid.Column="0" Background="red" Opacity="0"/>
+            <Grid Grid.Column="2" Background="red" Opacity="0"/>
+        </Grid>
+
+
     </Grid>
-    
-    
+
+
 </Page>

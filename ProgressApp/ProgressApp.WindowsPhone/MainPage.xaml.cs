@@ -38,6 +38,7 @@ namespace ProgressApp
             Core.LoadAllItems();
 
             list.DataContext = Core.items;
+           
             
             this.Loaded += MainPage_Loaded;
         }
@@ -58,6 +59,8 @@ namespace ProgressApp
             };
 
             tagChooser.ItemsSource = tags;
+            firstTileChoice.ItemsSource = Core.items;
+            secondTileChoice.ItemsSource = Core.items;
 
             tagChooser.ItemsPicked += (a, b) =>
             {
@@ -90,6 +93,28 @@ namespace ProgressApp
                     if (!tags.Contains(tag.Replace(" ", "").ToLower())) tags.Add(tag.Replace(" ", "").ToLower());
                 }
             }
+
+
+            pinGroupBtn.IsEnabled = false;
+            firstTileChoice.SelectionChanged += (a, b) =>
+            {
+                largeTileFirst.DataContext = firstTileChoice.SelectedValue;
+                smallTileFirst.DataContext = firstTileChoice.SelectedValue;
+                if (firstTileChoice.SelectedValue != null && secondTileChoice.SelectedValue != null) pinGroupBtn.IsEnabled = true;
+            };
+            secondTileChoice.SelectionChanged += (a, b) =>
+            {
+                largeTileSecond.DataContext = secondTileChoice.SelectedValue;
+                smallTileSecond.DataContext = secondTileChoice.SelectedValue;
+                if (firstTileChoice.SelectedValue != null && secondTileChoice.SelectedValue != null) pinGroupBtn.IsEnabled = true;
+
+
+            };
+
+            pinGroupBtn.Tapped += (a, b) =>
+            {
+                TileManager.SaveAndPin(tile, tileSmall, (firstTileChoice.SelectedValue as ProgressItem).ID.Substring(0, 5) + (secondTileChoice.SelectedValue as ProgressItem).ID.Substring(0, 5));
+            };
             
         }
 

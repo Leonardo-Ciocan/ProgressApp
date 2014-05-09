@@ -10,11 +10,12 @@
     d:DesignWidth="400" HorizontalAlignment="Center">
     
     <Grid>
-        <ListView x:Name="root" SelectionMode="Extended" CanReorderItems="True" CanDragItems="True">
+        <ListView x:Name="root" SelectionMode="Extended"  CanDragItems="True" AllowDrop="True">
         	<ListView.ItemContainerTransitions>
         		<TransitionCollection>
-        			<EntranceThemeTransition/>
-        			<ReorderThemeTransition/>
+                    <EntranceThemeTransition/>
+                    <AddDeleteThemeTransition></AddDeleteThemeTransition>
+                    <ReorderThemeTransition/>
         		</TransitionCollection>
         	</ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>

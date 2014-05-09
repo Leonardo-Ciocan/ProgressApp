@@ -51,10 +51,14 @@ namespace ProgressApp
         {
             DataContext = e.Parameter;
             self = DataContext as ProgressItem;
+            //StatusBar.GetForCurrentView().BackgroundColor = Color.FromArgb(0, 0, 0, 1);
+
             StatusBar.GetForCurrentView().BackgroundColor = (e.Parameter as ProgressItem).Color;
+            //this.BottomAppBar.Background = new SolidColorBrush((e.Parameter as ProgressItem).Color);
+            this.BottomAppBar.Foreground = new SolidColorBrush(Colors.White);
             StatusBar.GetForCurrentView().BackgroundOpacity = 1;
             StatusBar.GetForCurrentView().ForegroundColor = Colors.White;
-
+            
             var uriLogo = new Uri("ms-appx:///Assets/Logo.scale-240.png");
             //var uriSmallLogo = new Uri("ms-appx:///images/smallLogoSecondaryTile-sdk.png");
 

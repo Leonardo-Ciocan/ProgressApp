@@ -32,9 +32,15 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
 
-            
 
 
+            <ListView.Header>
+                <StackPanel Height="300" VerticalAlignment="Top">
+                    <Slider x:Name="red" Header="Red" Foreground="Red" Minimum="0" Maximum="255" Value="25"></Slider>
+                    <Slider x:Name="green" Header="Green" Foreground="Green" Minimum="0" Maximum="255" Value="25"></Slider>
+                    <Slider x:Name="blue" Header="Blue" Foreground="blue" Minimum="0" Maximum="255" Value="25"></Slider>
+                </StackPanel>
+            </ListView.Header>
         </ListView>
 
         

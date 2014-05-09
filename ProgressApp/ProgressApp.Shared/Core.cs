@@ -32,11 +32,11 @@ namespace ProgressApp
         //public static bool loaded = false;
         public static ObservableCollection<ProgressItem> items = new ObservableCollection<ProgressItem>();
 
-        public static StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+        public static StorageFolder storageFolder = ApplicationData.Current.RoamingFolder;
 
         public static void Initialize()
         {
-            storageFolder = ApplicationData.Current.LocalFolder;
+            storageFolder = ApplicationData.Current.RoamingFolder;
         }
 
         public static async void LoadAllItems(){

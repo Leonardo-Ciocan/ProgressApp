@@ -53,6 +53,7 @@ namespace ProgressApp
 #if WINDOWS_PHONE_APP
             root.ReorderMode = reorder ? Windows.UI.Xaml.Controls.ListViewReorderMode.Enabled : Windows.UI.Xaml.Controls.ListViewReorderMode.Disabled;
 #endif
+            root.CanReorderItems = reorder;
         }
     }
 }

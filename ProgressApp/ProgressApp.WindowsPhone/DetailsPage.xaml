@@ -74,7 +74,11 @@
         <CommandBar>
             <AppBarButton Icon="Pin" Label="Pin" Click="PinClicked"></AppBarButton>
             <AppBarButton Icon="Delete" Label="Delete" Click="DeleteClicked"></AppBarButton>
+            <CommandBar.Background>
+                <SolidColorBrush Color="{Binding Color}"></SolidColorBrush>
+            </CommandBar.Background>
         </CommandBar>
+        
     </Page.BottomAppBar>
     <Grid>
 

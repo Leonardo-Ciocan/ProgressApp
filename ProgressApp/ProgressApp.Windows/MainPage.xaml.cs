@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,9 +25,173 @@ namespace ProgressApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        bool loaded;
+        ObservableCollection<ProgressItem> resultItems = new ObservableCollection<ProgressItem>();
         public MainPage()
         {
             this.InitializeComponent();
+
+            this.NavigationCacheMode = NavigationCacheMode.Required;
+            //StatusBar.GetForCurrentView().ForegroundColor = Colors.Gray;
+
+            Core.Initialize();
+            Core.LoadAllItems();
+
+            list.DataContext = Core.items;
+            
+            this.Loaded += MainPage_Loaded;
+        }
+
+        ObservableCollection<string> tags = new ObservableCollection<string>();
+        void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            search.QuerySubmitted += (a, b) =>
+            {
+                resultItems.Clear();
+                foreach (ProgressItem item in Core.items)
+                {
+                    if (item.Name.ToLower().Contains(search.QueryText.ToLower()) || item.Units.Contains(search.QueryText.ToLower()) || item.Tags.Contains(search.QueryText.ToLower()) || search.QueryText == "")
+                    {
+                        resultItems.Add(item);
+                    }
+                }
+
+                if (search.QueryText == "")
+                {
+                    list.DataContext = Core.items;
+                }
+                else
+                {
+                    list.DataContext = resultItems;
+                }
+            };
+
+            
+
+            tagChooser.IsItemClickEnabled = true;
+            tagChooser.ItemsSource = tags;
+            tagChooser.SelectionChanged += (a, b) =>
+            {
+                if (tagChooser.ToString() == "All")
+                {
+                    list.DataContext = Core.items;
+                    resultItems.Clear();
+                }
+                else
+                {
+                    resultItems.Clear();
+                    list.DataContext = resultItems;
+                    foreach (ProgressItem item in Core.items)
+                    {
+                        if (item.Tags.Replace(" ", "").ToLower().Contains(tagChooser.SelectedValue.ToString()))
+                        {
+                            resultItems.Add(item);
+                        }
+                    }
+                }
+            };
+
+            tags.Clear();
+            tags.Add("All");
+            foreach (ProgressItem item in Core.items)
+            {
+                if (item.Tags == null) break;
+                foreach (String tag in item.Tags.Split(','))
+                {
+                    if (!tags.Contains(tag.Replace(" ", "").ToLower())) tags.Add(tag.Replace(" ", "").ToLower());
+                }
+            }
+            
+        }
+
+        //ObservableCollection<ProgressItem> items = new ObservableCollection<ProgressItem>();
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            tags.Clear();
+            tags.Add("All");
+            foreach (ProgressItem item in Core.items)
+            {
+                if (item.Tags == null) break;
+                foreach (String tag in item.Tags.Split(','))
+                {
+                    if(!tags.Contains(tag.Replace(" ","").ToLower()))tags.Add(tag.Replace(" ","").ToLower());
+                }
+            }
+
+            
+            //list.DataContext = Core.items;
+            if (!loaded)
+            {
+                
+                //Core.items.Add(new ProgressItem { Name = "Budget", Minimum = 0, Maximum = 1800, Value = 350, Color = Colors.Green });
+                //Core.items.Add(new ProgressItem { Name = "Pushups", Minimum = 0, Maximum = 20, Value = 16, Color = Colors.Red });
+                //Core.items.Add(new ProgressItem { Name = "Free bus days", Minimum = 0, Maximum = 12, Value = 6, Color = Colors.Orange });
+                //Core.items.Add(new ProgressItem { Name = "Protein", Minimum = 0, Maximum = 24, Value = 2, Color = Colors.Violet });
+                
+
+                list.OnSelected += (item) =>
+                {
+                    //Frame.Navigate(typeof(DetailsPage), item);
+                    detailsHub.DataContext = item;
+                    tile.DataContext = item;
+                    tileSmall.DataContext = item;
+                    Core.SaveAllItems();
+                };
+
+                loaded = true;
+            }
+        }
+
+        private void AppBarToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            //reorder on
+            list.setReorderMode(((AppBarToggleButton)sender).IsChecked.Value);
+        }
+
+        Random random = new Random();
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            //adding
+            ProgressItem item = new ProgressItem()
+            {
+                Name="",
+                Minimum = 0,
+                Maximum = 100,
+                Value = 35,
+                Color = Color.FromArgb(255, (byte)random.Next(255),
+                    (byte)random.Next(255),
+                    (byte)random.Next(255)),
+                ID = Guid.NewGuid().ToString(),
+                Units = "",
+                Tags = ""
+            };
+            Core.items.Add(item);
+            //Frame.Navigate(typeof(DetailsPage), item);
+        }
+
+        private void Search(object sender, RoutedEventArgs e)
+        {
+            AppBarToggleButton btn = (AppBarToggleButton)sender;
+            search.Visibility = (btn.IsChecked.Value) ? Visibility.Visible : Visibility.Collapsed;
+            list.Margin = new Thickness(0, (btn.IsChecked.Value) ? 55 : 0, 0, 0);
+            if (!btn.IsChecked.Value)
+            {
+                list.DataContext = Core.items;
+            }
+            else
+            {
+                list.DataContext = resultItems;
+            }
+        }
+
+        private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            //Frame.Navigate(typeof(SettingsPage));
+        }
+
+        private void AppBarButton_Click_2(object sender, RoutedEventArgs e)
+        {
+            TileManager.SaveAndPin(tile, tileSmall, (detailsHub.DataContext as ProgressItem).ID);
         }
     }
 }
